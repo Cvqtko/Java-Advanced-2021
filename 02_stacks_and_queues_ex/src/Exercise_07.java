@@ -1,9 +1,25 @@
 import java.util.Scanner;
 
 public class Exercise_07 {
+	public static long[] memory;
+
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 
-		String line = scanner.nextLine();
+		int n = Integer.parseInt(scanner.nextLine());
+		memory = new long[n + 1];
+		System.out.println(fib(n));
+
+	}
+
+	static long fib(int n) {
+		if (n <= 1) {
+			return 1;
+		} else {
+			if (memory[n] != 0) {
+				return memory[n];
+			}
+			return memory[n] = fib(n - 1) + fib(n - 2);
+		}
 	}
 }
