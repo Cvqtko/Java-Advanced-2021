@@ -8,12 +8,12 @@ public class Exercise_01 {
 		int[][] firstMatrix = readMatrix(scanner);
 		int[][] secondMatrix = readMatrix(scanner);
 
-		boolean areEqual = compareMatrixes(firstMatrix, secondMatrix);
+		boolean areEqual = compareMatrices(firstMatrix, secondMatrix);
 		
 		System.out.println(areEqual? "equal" : "not equal");
 	}
 
-	private static boolean compareMatrixes(int[][] firstMatrix, int[][] secondMatrix) {
+	private static boolean compareMatrices(int[][] firstMatrix, int[][] secondMatrix) {
 		if (firstMatrix.length != secondMatrix.length) {
 			return false;
 		}
