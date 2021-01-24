@@ -1,18 +1,25 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Exercise_04 {
+public class SumOfSubmatrix {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		int[][] matrix = readMatrix(scanner);
-
-		int sum = 0;
-		for (int row = 0; row < matrix.length; row++) {
-			for (int col = 0; col < matrix[row].length; col++) {
-				sum += matrix[row][col];
+		int bestSum = Integer.MIN_VALUE;
+		int resultRow = 0;
+		int resultCol = 0;
+		for (int row = 0; row < matrix.length - 1; row++) {
+			for (int col = 0; col < matrix[row].length - 1; col++) {
+				int sum = matrix[row][col] + matrix[row][col + 1] + matrix[row + 1][col] + matrix[row + 1][col + 1];
+				if (sum > bestSum) {
+					bestSum = sum;
+					resultRow = row;
+					resultCol = col;
+				}
 			}
+
 		}
-		System.out.printf("%d\n%d\n%d", matrix.length, matrix[0].length,sum);
+		System.out.printf("%d %d\n%d %d\n%d", matrix[resultRow][resultCol], matrix[resultRow][resultCol + 1],
+				matrix[resultRow + 1][resultCol], matrix[resultRow + 1][resultCol + 1], bestSum);
 	}
 
 	private static int[][] readMatrix(Scanner scanner) {
