@@ -26,7 +26,7 @@ public class Exercise_06 {
 		data.forEach((key,value)->{
 			System.out.println(key+":");
 			value.forEach((innerKey,innerValue)->{
-				System.out.println(innerKey+"->"+String.join(", ", innerValue));
+				System.out.println("  " + innerKey+" -> "+String.join(", ", innerValue));
 			});
 		});
 	}
