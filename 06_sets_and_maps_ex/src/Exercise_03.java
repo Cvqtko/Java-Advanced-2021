@@ -11,8 +11,8 @@ public class Exercise_03 {
 		for (int i = 0; i < n; i++) {
 			String[] elements = scanner.nextLine().split("\\s+");
 			chemicalElements.addAll(Arrays.asList(elements));
-			
+
 		}
-		chemicalElements.forEach(e -> System.out.print(e + " "));
+		System.out.println(String.join(" ", chemicalElements));
 	}
 }
