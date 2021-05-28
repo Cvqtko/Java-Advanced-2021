@@ -10,13 +10,13 @@ public class Exercise_13 {
 		String input = scanner.nextLine();
 
 		while (!input.equals("End")) {
-			if (!input.contains("@") || input.charAt(input.indexOf("@") - 1) != ' ') {
+			if (!input.contains("@") || input.charAt(input.indexOf("@") - 1) != ' ' ) {
 				input = scanner.nextLine();
 				continue;
 			}
 
 			String singer = input.substring(0, input.indexOf("@") - 1);
-		
+
 			int firstIndexOfNumber = 0;
 			for (int i = input.indexOf("@"); i < input.length(); i++) {
 				char currentSymbol = input.charAt(i);
@@ -34,6 +34,10 @@ public class Exercise_13 {
 
 			String venue = input.substring(input.indexOf("@") + 1, firstIndexOfNumber - 1);
 			String numbers = input.substring(firstIndexOfNumber);
+			if(numbers.split("\\s+").length!=2) {
+				input = scanner.nextLine();
+				continue;
+			}
 			int price = Integer.parseInt(numbers.split("\\s+")[0]);
 			int capacity = Integer.parseInt(numbers.split("\\s+")[1]);
 
@@ -43,12 +47,12 @@ public class Exercise_13 {
 				concerts.put(venue, singers);
 			} else {
 				LinkedHashMap<String, Integer> currentSingers = concerts.get(venue);
-				if(currentSingers.containsKey(singer)) {
+				if (currentSingers.containsKey(singer)) {
 					currentSingers.put(singer, currentSingers.get(singer) + price * capacity);
-				}else {
-					currentSingers.put(singer,price * capacity);
+				} else {
+					currentSingers.put(singer, price * capacity);
 				}
-				
+
 				concerts.put(venue, currentSingers);
 
 			}

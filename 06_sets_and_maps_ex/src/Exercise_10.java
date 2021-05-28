@@ -39,7 +39,7 @@ public class Exercise_10 {
 			}
 
 		}
-		countryPopulation = sortByValues(countryPopulation);
+		//countryPopulation = sortByValues(countryPopulation);
 		for (String country : countryPopulation.keySet()) {
 			System.out.printf("%s (total population: %d)\n", country, countryPopulation.get(country));
 			Map<String, Long> cityAndPopulation = countries.get(country);

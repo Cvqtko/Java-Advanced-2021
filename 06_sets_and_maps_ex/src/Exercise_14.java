@@ -4,9 +4,11 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class Exercise_14 {
+	public static StringBuilder builder = new StringBuilder();
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		int inputNumber = Integer.parseInt(scanner.nextLine());
+		StringBuilder builder = new StringBuilder();
 		String line;
 
 		Map<String, Map<String, Integer[]>> dragons = new LinkedHashMap<>();
@@ -43,14 +45,15 @@ public class Exercise_14 {
 		for (String dragonType : dragons.keySet()) {
 			double[] dha = getAverage(dragons.get(dragonType));
 
-			System.out.printf("%s::(%.2f/%.2f/%.2f)\n", dragonType, dha[0], dha[1], dha[2]);
+			builder.append(String.format("%s::(%.2f/%.2f/%.2f)\n", dragonType, dha[0], dha[1], dha[2]));
 
 			Map<String, Integer[]> innerMap = dragons.get(dragonType);
 			for (String dragon : innerMap.keySet()) {
-				System.out.printf("-%s -> damage: %d, health: %d, armor: %d\n", dragon, innerMap.get(dragon)[0],
-						innerMap.get(dragon)[1], innerMap.get(dragon)[2]);
+				builder.append(String.format("-%s -> damage: %d, health: %d, armor: %d\n", dragon, innerMap.get(dragon)[0],
+						innerMap.get(dragon)[1], innerMap.get(dragon)[2]));
 			}
 		}
+		System.out.println(builder.toString());
 	}
 
 	private static double[] getAverage(Map<String, Integer[]> dragonDHA) {

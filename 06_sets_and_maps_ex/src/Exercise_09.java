@@ -1,46 +1,49 @@
+import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.TreeMap;
 
 public class Exercise_09 {
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
 
-		Map<String, Set<String>> usersAndIP = new TreeMap<>();
-		Map<String, Integer> countRepeatIP = new LinkedHashMap<>();
-
-		String input;
-		while (!"end".equals(input = sc.nextLine())) {
-			String[] toArray = input.split("=");
-			String[] IpLooking = toArray[1].split("\\s+");
-
-			String IP = IpLooking[0];
-			String userName = toArray[3];
-
-			usersAndIP.putIfAbsent(userName, new LinkedHashSet<>());
-
-			usersAndIP.get(userName).add(IP);
-			countRepeatIP.putIfAbsent(IP, 0);
-			countRepeatIP.put(IP, countRepeatIP.get(IP) + 1);
-		}
-		for (Map.Entry<String, Set<String>> entry : usersAndIP.entrySet()) {
-			String user = entry.getKey();
-			System.out.println(user + ": ");
-
-			Object[] SetToArray = entry.getValue().toArray(); // convert Set to Array
-			for (int i = 0; i < SetToArray.length; i++) {
-				if (i < SetToArray.length - 1) {
-					System.out.print(SetToArray[i] + " => " + countRepeatIP.get(SetToArray[i]) + ", ");
+		Scanner scanner = new Scanner(System.in);
+		String line = scanner.nextLine();
+		StringBuilder str = new StringBuilder();
+		TreeMap<String, Map<String, Integer>> users = new TreeMap<>();
+		while (!"end".equals(line)) {
+			String ip = line.substring(line.indexOf("=") + 1, line.indexOf(" "));
+			String user = line.substring(line.indexOf("user=") + 5);
+			if (users.containsKey(user)) {
+				Map<String, Integer> userIps = users.get(user);
+				if (userIps.containsKey(ip)) {
+					userIps.put(ip, userIps.get(ip) + 1);
 				} else {
-					System.out.print(SetToArray[i] + " => " + countRepeatIP.get(SetToArray[i]) + ".");
+					userIps.put(ip, 1);
+				}
+				users.put(user, userIps);
+			} else {
+				Map<String, Integer> ips = new LinkedHashMap<>();
+				ips.put(ip, 1);
+				users.put(user, ips);
+			}
+			line = scanner.nextLine();
+		}
+		for (String user : users.keySet()) {
+			str.append(user + ":").append(System.lineSeparator());
+			Map<String, Integer> userIps = users.get(user);
+
+			Iterator<Map.Entry<String, Integer>> itr = userIps.entrySet().iterator();
+			while (itr.hasNext()) {
+				Map.Entry<String, Integer> entry = itr.next();
+				if (itr.hasNext()) {
+					str.append(entry.getKey() + " => " + entry.getValue() + ", ");
+				} else {
+					str.append(entry.getKey() + " => " + entry.getValue() + ".").append(System.lineSeparator());
 				}
 			}
-			System.out.println();
 
 		}
-
+		System.out.println(str.toString());
 	}
 }
