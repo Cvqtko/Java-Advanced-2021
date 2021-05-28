@@ -1,5 +1,4 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 public class Exercise_06 {
@@ -7,11 +6,16 @@ public class Exercise_06 {
 		Scanner scanner = new Scanner(System.in);
 
 		String line = scanner.nextLine();
-		Map<String, String> resourceAndQuantity = new HashMap<>();
+		LinkedHashMap<String, Integer> resourceAndQuantity = new LinkedHashMap<>();
 
 		while (!line.equals("stop")) {
-			String quantity = scanner.nextLine();
-			resourceAndQuantity.put(line, quantity);
+			int quantity = Integer.parseInt(scanner.nextLine());
+			if (resourceAndQuantity.containsKey(line)) {
+				int currentQuantity = resourceAndQuantity.get(line);
+				resourceAndQuantity.put(line, currentQuantity + quantity);
+			} else {
+				resourceAndQuantity.put(line, quantity);
+			}
 			line = scanner.nextLine();
 		}
 		for (String resource : resourceAndQuantity.keySet()) {

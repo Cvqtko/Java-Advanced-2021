@@ -1,84 +1,67 @@
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 public class Exercise_13 {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		int inputNumber = Integer.parseInt(scanner.nextLine());
-		String line;
+		LinkedHashMap<String, LinkedHashMap<String, Integer>> concerts = new LinkedHashMap<>();
+		String input = scanner.nextLine();
 
-		Map<String, Map<String, Integer[]>> dragons = new LinkedHashMap<>();
-		Map<String, Integer[]> dragonDHA = new TreeMap<String, Integer[]>();
+		while (!input.equals("End")) {
+			if (!input.contains("@") || input.charAt(input.indexOf("@") - 1) != ' ') {
+				input = scanner.nextLine();
+				continue;
+			}
 
-		for (int i = 0; i < inputNumber; i++) {
-			dragonDHA = new TreeMap<String, Integer[]>();
-			line = scanner.nextLine();
-			String[] tokens = line.split(" ");
-			removeNulls(tokens);
+			String singer = input.substring(0, input.indexOf("@") - 1);
+		
+			int firstIndexOfNumber = 0;
+			for (int i = input.indexOf("@"); i < input.length(); i++) {
+				char currentSymbol = input.charAt(i);
+				if (Character.isDigit(currentSymbol) && input.charAt(i - 1) == ' ') {
+					firstIndexOfNumber = i;
+					break;
+				}
 
-			String dragonType = tokens[0];
-			String dragonName = tokens[1];
-			String dragonDamage = tokens[2];
-			String dragonHealth = tokens[3];
-			String dragonArmor = tokens[4];
+			}
 
-			Integer[] dha = new Integer[] { Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]),
-					Integer.parseInt(tokens[4]) };
+			if (firstIndexOfNumber == 0) {
+				input = scanner.nextLine();
+				continue;
+			}
 
-			if (dragons.containsKey(dragonType)) {
-				dragonDHA = dragons.get(dragonType);
-				dragonDHA.put(dragonName, dha);
-				dragons.put(dragonType, dragonDHA);
+			String venue = input.substring(input.indexOf("@") + 1, firstIndexOfNumber - 1);
+			String numbers = input.substring(firstIndexOfNumber);
+			int price = Integer.parseInt(numbers.split("\\s+")[0]);
+			int capacity = Integer.parseInt(numbers.split("\\s+")[1]);
+
+			if (!concerts.containsKey(venue)) {
+				LinkedHashMap<String, Integer> singers = new LinkedHashMap<>();
+				singers.put(singer, price * capacity);
+				concerts.put(venue, singers);
 			} else {
-				dragonDHA.put(dragonName, dha);
-				dragons.put(dragonType, dragonDHA);
+				LinkedHashMap<String, Integer> currentSingers = concerts.get(venue);
+				if(currentSingers.containsKey(singer)) {
+					currentSingers.put(singer, currentSingers.get(singer) + price * capacity);
+				}else {
+					currentSingers.put(singer,price * capacity);
+				}
+				
+				concerts.put(venue, currentSingers);
+
 			}
-		}
-		printMap(dragons);
-	}
-
-	private static void printMap(Map<String, Map<String, Integer[]>> dragons) {
-		for (String dragonType : dragons.keySet()) {
-			double[] dha = getAverage(dragons.get(dragonType));
-
-			System.out.printf("%s::(%.2f/%.2f/%.2f)\n", dragonType, dha[0], dha[1], dha[2]);
-
-			Map<String, Integer[]> innerMap = dragons.get(dragonType);
-			for (String dragon : innerMap.keySet()) {
-				System.out.printf("-%s -> damage: %d, health: %d, armor: %d\n", dragon, innerMap.get(dragon)[0],
-						innerMap.get(dragon)[1], innerMap.get(dragon)[2]);
-			}
-		}
-	}
-
-	private static double[] getAverage(Map<String, Integer[]> dragonDHA) {
-		double averageDamage = 0;
-		double averageHealth = 0;
-		double averageArmor = 0;
-
-		for (String dragon : dragonDHA.keySet()) {
-			averageDamage += dragonDHA.get(dragon)[0];
-			averageHealth += dragonDHA.get(dragon)[1];
-			averageArmor += dragonDHA.get(dragon)[2];
+			input = scanner.nextLine();
 		}
 
-		return new double[] { averageDamage / dragonDHA.size(), averageHealth / dragonDHA.size(),
-				averageArmor / dragonDHA.size() };
-	}
+		for (String venue : concerts.keySet()) {
+			System.out.println(venue);
 
-	public static void removeNulls(String[] tokens) {
+			LinkedHashMap<String, Integer> singers = concerts.get(venue);
 
-		if ("null".equals(tokens[2])) {
-			tokens[2] = "45";
+			singers.entrySet().stream().sorted((sum1, sum2) -> sum2.getValue().compareTo(sum1.getValue()))
+					.forEach(e -> System.out.println(String.format("#  %s -> %d", e.getKey(), e.getValue())));
 		}
-		if ("null".equals(tokens[3])) {
-			tokens[3] = "250";
-		}
-		if ("null".equals(tokens[4])) {
-			tokens[4] = "10";
-		}
-
 	}
 }

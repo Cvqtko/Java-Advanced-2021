@@ -24,7 +24,7 @@ public class Exercise_01 {
 			if (firstArr.length != secondArr.length) {
 				return false;
 			}
-			for (int col = 0; col < firstMatrix.length; col++) {
+			for (int col = 0; col < firstMatrix[row].length; col++) {
 				if (firstArr[col] != secondArr[col]) {
 					return false;
 				}

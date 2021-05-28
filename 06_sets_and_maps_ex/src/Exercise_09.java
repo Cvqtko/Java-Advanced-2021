@@ -1,70 +1,46 @@
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class Exercise_09 {
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
-		Map<String, Map<String, Long>> countries = new LinkedHashMap<>();
-		Map<String, Long> countryPopulation = new HashMap<>();
-		String line;
-		while (true) {
-			line = scanner.nextLine();
-			if ("report".equals(line)) {
-				break;
-			}
-			String[] tokens = line.split("\\|");
-			String countryName = tokens[1];
-			String cityName = tokens[0];
-			long population = Long.parseLong(tokens[2]);
+		Scanner sc = new Scanner(System.in);
 
-			Map<String, Long> cities = new LinkedHashMap<>();
-			if (countries.containsKey(countryName)) {
-				cities = countries.get(countryName);
-			}
+		Map<String, Set<String>> usersAndIP = new TreeMap<>();
+		Map<String, Integer> countRepeatIP = new LinkedHashMap<>();
 
-			cities.put(cityName, population);
-			countries.put(countryName, cities);
+		String input;
+		while (!"end".equals(input = sc.nextLine())) {
+			String[] toArray = input.split("=");
+			String[] IpLooking = toArray[1].split("\\s+");
 
-			if (!countryPopulation.containsKey(countryName)) {
-				countryPopulation.put(countryName, population);
-			} else {
-				countryPopulation.put(countryName, countryPopulation.get(countryName) + population);
+			String IP = IpLooking[0];
+			String userName = toArray[3];
+
+			usersAndIP.putIfAbsent(userName, new LinkedHashSet<>());
+
+			usersAndIP.get(userName).add(IP);
+			countRepeatIP.putIfAbsent(IP, 0);
+			countRepeatIP.put(IP, countRepeatIP.get(IP) + 1);
+		}
+		for (Map.Entry<String, Set<String>> entry : usersAndIP.entrySet()) {
+			String user = entry.getKey();
+			System.out.println(user + ": ");
+
+			Object[] SetToArray = entry.getValue().toArray(); // convert Set to Array
+			for (int i = 0; i < SetToArray.length; i++) {
+				if (i < SetToArray.length - 1) {
+					System.out.print(SetToArray[i] + " => " + countRepeatIP.get(SetToArray[i]) + ", ");
+				} else {
+					System.out.print(SetToArray[i] + " => " + countRepeatIP.get(SetToArray[i]) + ".");
+				}
 			}
+			System.out.println();
 
 		}
-		countryPopulation = sortByValues(countryPopulation);
-		for (String country : countryPopulation.keySet()) {
-			System.out.printf("%s (total population: %d)\n", country, countryPopulation.get(country));
-			Map<String, Long> cityAndPopulation = countries.get(country);
-			for (String city : cityAndPopulation.keySet()) {
-				System.out.printf("=>%s: %d\n", city, cityAndPopulation.get(city));
-			}
-		}
-	}
 
-	private static HashMap sortByValues(Map<String, Long> map) {
-		List list = new LinkedList(map.entrySet());
-		// Defined Custom Comparator here
-		Collections.sort(list, new Comparator() {
-			public int compare(Object o1, Object o2) {
-				return ((Comparable) ((Map.Entry) (o2)).getValue()).compareTo(((Map.Entry) (o1)).getValue());
-			}
-		});
-
-		// Here I am copying the sorted list in HashMap
-		// using LinkedHashMap to preserve the insertion order
-		HashMap sortedHashMap = new LinkedHashMap();
-		for (Iterator it = list.iterator(); it.hasNext();) {
-			Map.Entry entry = (Map.Entry) it.next();
-			sortedHashMap.put(entry.getKey(), entry.getValue());
-		}
-		return sortedHashMap;
 	}
 }

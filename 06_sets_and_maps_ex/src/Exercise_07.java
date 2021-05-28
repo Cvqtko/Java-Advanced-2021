@@ -1,6 +1,5 @@
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class Exercise_07 {
@@ -8,27 +7,22 @@ public class Exercise_07 {
 		Scanner scanner = new Scanner(System.in);
 
 		String line = scanner.nextLine();
-		Map<String, String> nameEmails = new HashMap<>();
+		LinkedHashMap<String, String> nameEmails = new LinkedHashMap<>();
 
 		while (!"stop".equals(line)) {
 			String email = scanner.nextLine();
+			if (email.toLowerCase().endsWith(".us") || email.toLowerCase().endsWith(".uk") || email.toLowerCase().endsWith(".com")) {
+				line = scanner.nextLine();
+				continue;
+			}
 			nameEmails.put(line, email);
 			line = scanner.nextLine();
 		}
 
-		Iterator iter = nameEmails.entrySet().iterator();
+		for (Entry<String, String> entry : nameEmails.entrySet()) {
 
-		while (iter.hasNext()) {
-			Map.Entry pair = (Map.Entry) iter.next();
-			String email = (String) pair.getValue();
-			if ("us".equals(email.substring(email.indexOf(".") + 1))
-					|| "uk".equals(email.substring(email.indexOf(".") + 1))
-					|| "com".equals(email.substring(email.indexOf(".") + 1))) {
-				iter.remove();
-			} else {
-				System.out.printf("%s -> %s\n", pair.getKey(), pair.getValue());
-			}
+			System.out.printf("%s -> %s\n", entry.getKey(), entry.getValue());
 		}
-
 	}
+
 }

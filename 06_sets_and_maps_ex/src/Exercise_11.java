@@ -1,62 +1,51 @@
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Exercise_11 {
 	public static void main(String[] args) {
+
 		Scanner scanner = new Scanner(System.in);
-		String input = scanner.nextLine();
-		Map<String, Integer> materials = new TreeMap<>();
-		String[] materialsQuantity;
-		String line = "";
 
-		while (!input.isEmpty()) {
-			line = line + " " + input;
-			input = scanner.nextLine();
-		}
-		materialsQuantity = line.trim().split(" ");
-		for (int i = 0; i < materialsQuantity.length - 1; i += 2) {
-			String material = materialsQuantity[i + 1].toLowerCase();
-			int quantity = Integer.parseInt(materialsQuantity[i]);
-			if (materials.containsKey(material)) {
-				materials.put(material, materials.get(material) + quantity);
+		int numberOfInputs = Integer.parseInt(scanner.nextLine());
+		Map<String, Integer> usersAndTime = new HashMap<>();
+		Map<String, Set<String>> usersAndIps = new HashMap<>();
+
+		String line;
+		for (int i = 0; i < numberOfInputs; i++) {
+			line = scanner.nextLine();
+			String[] tokens = line.split(" ");
+			String user = tokens[1];
+			String ip = tokens[0];
+			int time = Integer.parseInt(tokens[2]);
+
+			if (usersAndTime.containsKey(user)) {
+				usersAndTime.put(user, usersAndTime.get(user) + time);
 			} else {
-				materials.put(material, quantity);
+				usersAndTime.put(user, time);
 			}
-		}
+			if (usersAndIps.containsKey(user)) {
+				usersAndIps.get(user).add(ip);
+				usersAndIps.put(user, usersAndIps.get(user));
+			} else {
+				Set<String> ips = new TreeSet<>();
+				ips.add(ip);
+				usersAndIps.put(user, ips);
+			}
 
-		checkLegendaryItem(materials);
-		for (String item : materials.keySet()) {
-			System.out.printf("%s: %d\n", item, materials.get(item));
-
 		}
-	}
+		for (String user : usersAndTime.keySet()) {
+			System.out.printf("%s: %d [", user, usersAndTime.get(user));
+			Object[] ips = usersAndIps.get(user).toArray();
+			for (int i = 0; i < ips.length; i++) {
+				if (i < ips.length - 1)
+					System.out.printf(ips[i] + ", ");
+				else
+					System.out.printf(ips[i] + "]\n");
+			}
 
-	public static void checkLegendaryItem(Map<String, Integer> materials) {
-		int shards = 0;
-		int fragments = 0;
-		int motes = 0;
-		if (materials.containsKey("shards"))
-			shards = materials.get("shards");
-		if (materials.containsKey("fragments"))
-			fragments = materials.get("fragments");
-		if (materials.containsKey("motes"))
-			motes = materials.get("motes");
-
-		if (shards >= 250) {
-			System.out.println("Shadowmourne obtained !");
-			shards = shards - 250;
-			materials.put("shards", shards);
-		}
-		if (fragments >= 250) {
-			System.out.println("Valanyr obtained !");
-			fragments = fragments - 250;
-			materials.put("fragments", fragments);
-		}
-		if (motes >= 250) {
-			System.out.println("Dragonwrath obtained !");
-			motes = motes - 250;
-			materials.put("motes", motes);
 		}
 
 	}

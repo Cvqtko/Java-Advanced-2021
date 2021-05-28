@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -10,7 +9,10 @@ public class Exercise_03 {
 		TreeSet<String> chemicalElements = new TreeSet<>();
 		for (int i = 0; i < n; i++) {
 			String[] elements = scanner.nextLine().split("\\s+");
-			chemicalElements.addAll(Arrays.asList(elements));
+			// chemicalElements.addAll(Arrays.asList(elements));
+			for (String element : elements) {
+				chemicalElements.add(element);
+			}
 
 		}
 		System.out.println(String.join(" ", chemicalElements));
