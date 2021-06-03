@@ -1,39 +1,27 @@
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+import java.io.ObjectOutputStream;
 
 public class Exercise_11 {
-	public static void main(String[] args) throws IOException {
-		ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(
-				"C:\\Users\\Leet\\IdeaProjects\\Homeworkd Streams and Files\\src\\text-files.zip"));
-		FileInputStream fis = new FileInputStream(
-				new File("C:\\Users\\Leet\\IdeaProjects\\Homeworkd Streams and Files\\src\\words.txt"));
-		int byteContainter;
-		zos.putNextEntry(new ZipEntry("words.txt"));
+	public static void main(String[] args) {
+		String resourceFolder = "D:\\Java_Softuni_2018\\Java_Advanced\\exercise_09_input_output\\";
 
-		while ((byteContainter = fis.read()) != -1) {
-			zos.write(byteContainter);
+		String serializableObjectPath = resourceFolder + "object.ser";
+
+		FootballPlayer player = new FootballPlayer("Ronaldo", 32, "Juventus", 1200000);
+
+		try (FileOutputStream fos = new FileOutputStream(serializableObjectPath);
+				ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+			oos.writeObject(player);
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		zos.closeEntry();
-		zos.putNextEntry(new ZipEntry("count-chars.txt"));
-		fis = new FileInputStream(
-				new File("C:\\Users\\Leet\\IdeaProjects\\Homeworkd Streams and Files\\src\\count-chars.txt"));
-		while ((byteContainter = fis.read()) != -1) {
-			zos.write(byteContainter);
-		}
-		zos.closeEntry();
-		zos.putNextEntry(new ZipEntry("lines.txt"));
-		fis = new FileInputStream(
-				new File("C:\\Users\\Leet\\IdeaProjects\\Homeworkd Streams and Files\\src\\lines.txt"));
-		while ((byteContainter = fis.read()) != -1) {
-			zos.write(byteContainter);
-		}
-		zos.closeEntry();
-		zos.finish();
-		zos.close();
 	}
-
 }
