@@ -81,17 +81,17 @@ public class Exercise_11 {
         names.stream().forEach(nm-> System.out.printf("%s ",nm));
     }
  
-    private static Predicate<String> AddFilterStartsWith(String subString) {         //Predicate to filter(Remouve) all Starts
+    private static Predicate<String> AddFilterStartsWith(String subString) {         //Predicate to filter(Remove) all Starts
         return e -> e.substring(0, subString.length()).equals(subString);            //with given string
     }
  
-    private static Predicate<String> AddFilterEndsWith(String subString) {           //Predicate to filter (Remouve)all Ends with
+    private static Predicate<String> AddFilterEndsWith(String subString) {           //Predicate to filter (Remove)all Ends with
         return e -> e.substring(e.length() - subString.length()).equals(subString);  //given string
     }
-    private static Predicate<String> AddFilterContains(String subString) {           //Predicate to filter (Remouve)all contains
+    private static Predicate<String> AddFilterContains(String subString) {           //Predicate to filter (Remove)all contains
         return e -> e.contains(subString);                                           //given string
     }
-    private static Predicate<String> AddFilterLenght(Integer lenght) {               //Predicate to filter (Remouve)all with
-        return e -> e.length()==lenght;                                              //given lenght
+    private static Predicate<String> AddFilterLenght(Integer lenght) {               //Predicate to filter (Remove)all with
+        return e -> e.length()==lenght;                                              //given length
     }
 }
