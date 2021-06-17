@@ -1,0 +1,56 @@
+package ex_2;
+
+public class Employee {
+	private String name;
+	private double salary;
+	private String position;
+	private String department;
+
+	private String email;
+	private int age;
+
+	public Employee(String name, double salary, String position, String department) {
+		this.name = name;
+		this.salary = salary;
+		this.position = position;
+		this.department = department;
+		this.email = "n/a";
+		this.age = -1;
+	}
+
+	public Employee(String name, double salary, String position, String department, String email, int age) {
+		this.name = name;
+		this.salary = salary;
+		this.position = position;
+		this.department = department;
+		this.email = email;
+		this.age = age;
+	}
+
+	public Employee(String name, double salary, String position, String department, String email) {
+		this(name, salary, position, department);
+		this.email = email;
+	}
+
+	public Employee(String name, double salary, String position, String department, int age) {
+		this(name, salary, position, department);
+		this.age = age;
+	}
+
+	public double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+
+	@Override
+	public String toString() {
+		// return this.name + " " + this.salary + " " + this.position + " "
+		// + this.department + " " + this.email + " " + this.age;
+
+		return String.format("%s %.2f %s %d", name, salary, email, age);
+	}
+
+}
