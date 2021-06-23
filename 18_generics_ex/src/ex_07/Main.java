@@ -21,7 +21,7 @@ public class Main {
 				break;
 			case "Remove":
 				int removedIndex = Integer.parseInt(tokens[1]);
-				System.out.println(list.remove(removedIndex));
+				list.remove(removedIndex);
 				break;
 			case "Contains":
 				String element = tokens[1];
