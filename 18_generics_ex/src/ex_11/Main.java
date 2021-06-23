@@ -32,8 +32,8 @@ public class Main {
 				String bankName = tokens[2];
 				tuple = new Threeuple(name, balance, bankName);
 			}
-			sb.append(tuple.toString());
-			sb.append(System.lineSeparator());
+			sb.append(tuple).append(System.lineSeparator());
+
 		}
 		System.out.println(sb.toString());
 

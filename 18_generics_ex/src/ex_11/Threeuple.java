@@ -41,7 +41,9 @@ public class Threeuple<T1, T2, T3> {
 
 	@Override
 	public String toString() {
-		return this.item1 + " -> " + this.item2 + " -> " + this.item3;
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.item1).append(" -> ").append(this.item2).append(" -> ").append(this.item3);
+		return sb.toString();
 	}
 
 }
