@@ -5,13 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CustomList<T extends Comparable<T>> implements Iterable<T> {
-//	•	void add(T element)
-//	•	T remove(int index)
-//	•	boolean contains(T element)
-//	•	void swap(int index, int index)
-//	•	int countGreaterThan(T element)
-//	•	T getMax()
-//	•	T getMin()
 
 	private List<T> elements;
 
