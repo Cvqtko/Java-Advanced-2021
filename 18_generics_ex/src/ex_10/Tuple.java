@@ -10,8 +10,7 @@ public class Tuple<T1, T2> {
 	}
 
 	public Tuple() {
-		this.item1 = item1;
-		this.item2 = item2;
+
 	}
 
 	public T1 getItem1() {
@@ -32,7 +31,7 @@ public class Tuple<T1, T2> {
 
 	@Override
 	public String toString() {
-		return item1 + " -> " + item2;
+		return this.item1 + " -> " + this.item2;
 	}
 
 }
