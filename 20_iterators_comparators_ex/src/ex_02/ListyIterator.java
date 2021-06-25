@@ -1,4 +1,4 @@
-package ex_01;
+package ex_02;
 
 import java.util.Iterator;
 import java.util.List;
